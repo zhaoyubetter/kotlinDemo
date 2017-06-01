@@ -26,6 +26,5 @@ public class Top_Level_Test {
         System.out.println("====");
 
         System.out.println(StringFunctions.lastChar("better"));
-
     }
 }

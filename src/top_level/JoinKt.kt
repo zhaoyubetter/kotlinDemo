@@ -41,16 +41,31 @@ fun <T> Collection<T>.joinString(separator: String = ", ",
 }
 
 fun Collection<String>.join(separator: String = ", ",
-                       prefix: String = "",
-                       postfix: String = "") = joinString(separator,prefix,postfix)
+                            prefix: String = "",
+                            postfix: String = "") = joinString(separator, prefix, postfix)
 
-// 扩展函数，String为扩展的类，receiver type;  this 为接收器对象 receiver obj
+// 1.扩展函数，String为扩展的类，receiver type;  this 为接收器对象 receiver obj
 // 添加了方法到String类
 fun String.lastChar(): Char = this.get(this.length - 1)     // or get(length - 1)
 
-// 扩展属性
+// 2.添加扩展属性
+val String.lastChar: Char
+    get() = get(length - 1)
+
+// 为 StringBuilder添加扩展属性
+var StringBuilder.lastChar: Char
+    get() = get(length - 1)     // getter
+    set(value: Char) {          // setter
+        this.setCharAt(length - 1, value)
+    }
 
 fun main(args: Array<String>) {
     println("Kotlin".lastChar())        // Kotlin 为接收器对象
+    println("better".lastChar)  // 扩展属性
 
+    println("扩展属性 for StringBuilder")
+    var sb = StringBuilder("Kotlin?")
+    println(sb.lastChar)
+    sb.lastChar = '!'
+    println(sb)
 }
