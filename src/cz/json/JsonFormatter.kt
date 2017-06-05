@@ -1,12 +1,11 @@
 package cz.model.plugin.json
 
 import com.google.gson.JsonArray
-import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import cz.json.JsonNode
 import cz.model.FieldType
-
+import cz.model.*
 
 /**
  * Created by cz on 2017/5/24.
@@ -24,7 +23,7 @@ class JsonFormatter(fileName: String, val value: String, init: Boolean = false) 
 
     init {
         if (init && isJson()) {
-            eachJsonObject(1, JSONObject(value), this.root, this.singleRoot)
+            eachJsonObject(1, JsonParser().parse(value).asJsonObject, this.root, this.singleRoot)
         }
     }
 
@@ -87,46 +86,62 @@ class JsonFormatter(fileName: String, val value: String, init: Boolean = false) 
         }
     }
 
+    /**
+     * 遍历json
+     */
     fun eachJsonObject(level: Int, item: JsonObject, parentNode: JsonNode, singleParentNode: JsonNode) {
         val sets = item.entrySet().iterator()
         for (entry in sets) {
             val key = entry.key
-            val childItem = item.get(key)              // jsonElement
-            var fieldType = getFieldType(childItem, parentNode)
-            var childNode = JsonNode(parentNode, key, fieldType, level + 1)
+            val childItem = item.get(key)                                       // gson 这里就是 jsonElement
+            var fieldType = getFieldType(childItem, parentNode)                 // 获取类型
+            var childNode = JsonNode(parentNode, key, fieldType, level + 1)     // 创建自定义的JsonNode 类
 
+            // 从父节点中遍历子节点，是否有相同的子节点
             var childSingleNode = singleParentNode.childNodes.find { it.name == key }
             if (null == childSingleNode) {
-                childSingleNode = JsonNode(singleParentNode, key, fieldType, level + 1)
-            } else if (FieldType.UN_KNOW == childSingleNode.type) {
-                //判断子条目类型是否与父条目设定类型一致,此处原因为:有的数组无数据,所以给定默认类型,此处判断其他数据列,是否有数据,并重新设定类型
+                childSingleNode = JsonNode(parentNode = singleParentNode,
+                        name = key, type = fieldType, level = level + 1)     // 创建节点
+            } else if (FieldType.UN_KNOW == childSingleNode.type) {     // 有些list节点，返回如：[]的类型，更正类型
+                //判断子条目类型是否与父条目设定类型一致,
+                //此处原因为:有的数组无数据,所以给定默认类型,此处判断其他数据列,是否有数据,并重新设定类型
                 childSingleNode.type = getFieldType(childItem, singleParentNode)
             }
+
+            // 设置 JsonNode 值
             eachAnyItem(level, childItem, childNode, childSingleNode)
         }
     }
 
+    /**
+     * @param level
+     * @param item
+     * @param parentNode
+     * @param singleParentNode
+     */
     fun eachAnyItem(level: Int, item: Any, parentNode: JsonNode, singleParentNode: JsonNode) {
-        if (item is JSONArray) {
-            (0..item.length() - 1).map { item.opt(it) }.forEach { item ->
-                if (item is JSONObject) {
+        if (item is JsonArray) {        // 判断类型
+            (0..item.size() - 1).map { item.get(it) }.forEach { item ->
+                if (item is JsonObject) {
                     var fieldType = getFieldType(item, parentNode)
                     val itemNode = JsonNode(parentNode, parentNode.name, fieldType, level + 1)
-                    eachJsonObject(level + 1, item, itemNode, singleParentNode)
+                    eachJsonObject(level + 1, item, itemNode, singleParentNode)     // 这里递归
                 } else {
-                    parentNode.value = item.toString()
+                    parentNode.value = item.toString()      // 设置 node value值
                     singleParentNode.value = item.toString()
                 }
             }
-        } else if (item is JSONObject) {
-            eachJsonObject(level + 1, item, parentNode, singleParentNode)
+        } else if (item is JsonObject) {
+            eachJsonObject(level + 1, item, parentNode, singleParentNode)       // 递归走
         } else {
-            parentNode.value = item.toString()
+            parentNode.value = item.toString()       // 设置node value值
             singleParentNode.value = item.toString()
         }
     }
 
-
+    /**
+     * 获取类型
+     */
     fun getFieldType(item: Any, parentNode: JsonNode): FieldType {
         val fieldItem: FieldType
         when (item) {
@@ -138,14 +153,15 @@ class JsonFormatter(fileName: String, val value: String, init: Boolean = false) 
             is Long -> fieldItem = FieldType.LONG
             is Integer -> fieldItem = FieldType.INT
             is Boolean -> fieldItem = FieldType.BOOLEAN
+            // 自己是 {}, 父是否是 []
             is JsonObject -> if (FieldType.LIST_OBJECT == parentNode.type)
                 fieldItem = FieldType.LIST_ITEM else fieldItem = FieldType.OBJECT
             is JsonArray -> {
                 if (0 == item.size()) {
                     fieldItem = FieldType.UN_KNOW
                 } else {
-                   // val itemValue = item.opt(0)
-                    val itemValue = item.get(0)     // jsonElement
+                    // val itemValue = item.opt(0)
+                    val itemValue = item.get(0)     // 拿到第一个item (jsonElement)
                     when (itemValue as Any) {
                         is Integer -> fieldItem = FieldType.LIST_INTEGER
                         is Boolean -> fieldItem = FieldType.LIST_BOOLEAN

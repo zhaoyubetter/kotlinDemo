@@ -1,6 +1,5 @@
-package com.cz.model.plugin.model
+package cz.model
 
-import cz.model.FieldType
 
 /**
  * Created by Administrator on 2017/5/24.

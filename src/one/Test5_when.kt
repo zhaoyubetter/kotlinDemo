@@ -16,5 +16,4 @@ fun main(args:Array<String>) {
     println(describe(1))
     println(describe("Hello"))
     println(describe(10000L))
-
 }

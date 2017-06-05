@@ -1,4 +1,4 @@
-package com.cz.model.plugin.model
+package cz.model
 
 /**
  * Created by cz on 2017/5/26.
