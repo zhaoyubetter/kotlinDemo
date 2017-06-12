@@ -33,11 +33,13 @@ fun testJsonFormat() {
             "count": 69,
             "name": "日本",
             "title": "日本"
+            "config":[]
         },
         {
             "count": 65,
             "name": "日本文学",
             "title": "日本文学"
+            "config":{app="aaa"}
         },
         {
             "count": 41,
