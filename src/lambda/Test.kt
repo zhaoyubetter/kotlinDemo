@@ -5,6 +5,8 @@ package lambda
  */
 fun main(args: Array<String>) {
     sayHello.invoke("better", "hello world")
+
+    println("hello".padEnd(20, '='))
 }
 
 val sayHello = { name: String, msg: String ->

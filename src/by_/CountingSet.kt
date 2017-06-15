@@ -1,5 +1,11 @@
 package by_
 
+val test:String = "better"
+
+fun test() {
+    println("test")
+}
+
 /**
  * by 委托
  * Created by zhaoyu1 on 2017/6/2.

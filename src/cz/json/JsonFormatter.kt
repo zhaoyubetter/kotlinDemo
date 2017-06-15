@@ -17,6 +17,9 @@ class JsonFormatter(fileName: String, val value: String, init: Boolean = false) 
     val TAG_LIST_START = 3
     val TAG_LIST_END = 4
     val TAG_EMPTY_LIST = 5
+    /**
+     * 子
+     */
     val TAG_CHILD = 6
     val root: JsonNode = JsonNode(fileName)
     val singleRoot: JsonNode = JsonNode(fileName)
@@ -45,15 +48,16 @@ class JsonFormatter(fileName: String, val value: String, init: Boolean = false) 
         var out = StringBuilder()
         val spaceLength = 4
         eachJsonDom(root) { node, tag ->
-            out.append("".padEnd(node.level * spaceLength, ' '))
+            out.append("".padEnd(node.level * spaceLength, ' '))        // 补充空格
             when (tag) {
-                TAG_LIST_START -> out.append("\"${node.name}\":[\n")
+                TAG_LIST_START ->
+                    out.append("\"${node.name}\": [\n")
                 TAG_LIST_END -> out.append("]\n")
-                TAG_EMPTY_LIST -> out.append("\"${node.name}\" : []\n")
+                TAG_EMPTY_LIST -> out.append("\"${node.name}\": []\n")
                 TAG_START -> {
                     if (FieldType.OBJECT == node.type) {
                         var leftBlock = if (0 != node.childNodes.size) "{" else ""
-                        out.append("\"${node.name}\"$leftBlock\n")
+                        out.append("\"${node.name}\" : $leftBlock\n")
                     } else if (FieldType.LIST_ITEM == node.type) {
                         out.delete(out.length - spaceLength, out.length)
                         out.append("{\n")
