@@ -1,5 +1,7 @@
 package regex
 
+import top_level.joinString as myJoin
+
 /**
  * Created by zhaoyu1 on 2017/6/1.
  */
@@ -12,6 +14,9 @@ fun main(args: Array<String>) {
 
     println("使用 Kotlin正则支持")
     parsePathRegex(path)
+
+    val arrays = arrayListOf<Int>(1,2,3)
+    println(arrays.myJoin(","))
 }
 
 // 使用字符串截取方式
