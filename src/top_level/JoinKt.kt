@@ -60,12 +60,35 @@ var StringBuilder.lastChar: Char
     }
 
 fun main(args: Array<String>) {
-    println("Kotlin".lastChar())        // Kotlin 为接收器对象
-    println("better".lastChar)  // 扩展属性
+    println("Kotlin".lastChar()) // Kotlin 为接收器对象
+    println("better".lastChar)   // 扩展属性
 
     println("扩展属性 for StringBuilder")
     var sb = StringBuilder("Kotlin?")
     println(sb.lastChar)
     sb.lastChar = '!'
     println(sb)
+
+    println("============")
+    MyClass.foo()
+}
+
+// 扩展函数
+fun <T> MutableList<T>.swap(index1:Int, index2:Int) {
+    val tmp = this[index1]
+    this[index1] = this[index2]
+    this[index2] = tmp
+}
+
+
+// 伴生对象的扩展函数
+
+class MyClass {
+    companion object {
+        fun test() = "test"
+    }
+}
+
+fun MyClass.Companion.foo() {
+    println("ok")
 }

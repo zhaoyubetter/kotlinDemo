@@ -13,3 +13,9 @@ fun performOperation() {
 fun reportOperationCount() {
     println("Operation performed $opCount times")
 }
+
+class Person private constructor(val name: String) {
+    constructor(name: String= "better", parent: Person) : this(name) {
+
+    }
+}
