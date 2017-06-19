@@ -23,3 +23,7 @@ class Button : View {
     class ButtonState : State {
     }
 }
+
+fun main(args: Array<String>) {
+    val state = Button.ButtonState()
+}

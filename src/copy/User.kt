@@ -12,4 +12,9 @@ fun main(args: Array<String>) {
 
     val user2: User = user1.copy(name = "cc")
     println(user2)
+
+    // 解构
+    val(name,age) = user2
+    println(name + " age: " + age)
+
 }
