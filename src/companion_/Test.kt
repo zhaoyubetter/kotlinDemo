@@ -2,7 +2,6 @@ package companion_
 
 /**
  * 类似Java中的静态方法
- * Created by zhaoyu1 on 2017/6/2.
  */
 class A {
     companion object {
@@ -26,7 +25,6 @@ class A {
 
 class B {
     companion object {
-
     }
 }
 

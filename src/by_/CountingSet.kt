@@ -1,6 +1,6 @@
 package by_
 
-val test:String = "better"
+val test: String = "better"
 
 fun test() {
     println("test")
@@ -28,6 +28,30 @@ class CountingSet<T>(val innerSet: MutableCollection<T> = HashSet<T>()) : Mutabl
 
 fun main(args: Array<String>) {
     val cset = CountingSet<Int>()
-    cset.addAll(listOf(1,3,3))
+    cset.addAll(listOf(1, 3, 3))
     println("${cset.objectsAdded} objects were added. ${cset.size} remain")
+
+    println("=============================")
+    val impl:LoginImpl = LoginImpl()
+    CountLogin(impl).doLogin()
+    println()
+}
+
+interface Login {
+    fun doLogin()
+}
+
+class LoginImpl : Login {
+    override fun doLogin() {
+        println("执行了doLogin方法...")
+    }
+}
+
+class CountLogin(val login: LoginImpl) : Login by login {
+    var count = 0
+    override fun doLogin() {
+        count++
+        login.doLogin()
+        println("次数： ${count}")
+    }
 }

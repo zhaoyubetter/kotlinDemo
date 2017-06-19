@@ -25,8 +25,6 @@ object CaseInsensitiveComparator : Comparator<String> {
 
 fun main(args: Array<String>) {
     println(CaseInsensitiveComparator.compare("abc", "ABC"))
-
     val list = listOf<String>("a","d", "b","g", "c")
-     println(list.sortedWith(CaseInsensitiveComparator))
-
+    println(list.sortedWith(CaseInsensitiveComparator))
 }

@@ -37,5 +37,6 @@ fun main(args: Array<String>) {
 
     println(color.mix(Color.RED, Color.YELLOW))
     println(color.mix2(Color.RED, Color.YELLOW))
+
 }
 
