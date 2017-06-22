@@ -31,6 +31,16 @@ fun main(args: Array<String>) {
 
     println("==== if null (?:)==== ")
     val data = mapOf("a" to 1, "b" to 2)
-    val c = data["c"] ?: throw IllegalAccessException("c is missing!")
+//    val c = data["c"] ?: throw IllegalAccessException("c is missing!")
 
+    println("===== let =====")
+    val withNullList = listOf("abc", null, "bbcc")
+    for (item in withNullList) {
+        item?.let { println(it) }
+    }
+
+    ///////// 为 null pointer 爱好者 准备的，这里将抛出异常
+    println("===== !! ====")
+    val b: String? = null
+    println(b!!.length)
 }
