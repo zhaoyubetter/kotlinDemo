@@ -13,4 +13,5 @@ class Outer {
 
 fun main(args: Array<String>) {
     Outer().Inner().test()  // 需要先创建外部类
+    println(Outer::class.java.simpleName)
 }

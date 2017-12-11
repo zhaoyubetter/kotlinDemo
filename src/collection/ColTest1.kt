@@ -17,6 +17,7 @@ fun main(args: Array<String>) {
     println("======")
     println(list)       // 输出 [2,4,5]
     println(set)
+    println(map)
 
     println("使用 joinToString ")
     println(joinToString(set, "; ", "(", ")"))         // 超级不错
