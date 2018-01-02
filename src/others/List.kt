@@ -22,6 +22,7 @@ fun main(args: Array<String>) {
     println(list.zip(listOf("a", "b", "c", "d")))   // (8,a),(7,b),这种
 
 
+
     juhe()
     filter()
     map()

@@ -7,12 +7,20 @@ import cz.model.plugin.json.JsonFormatter
  * Created by zhaoyu on 2017/6/4.
  */
 fun main(args: Array<String>) {
-   // println(isJson("[]"))
-    testJsonFormat();
+    // println(isJson("[]"))
+//    testJsonFormat();
+
+    var list = arrayListOf<Int>(2, 9, 0, 3, 1, 5)
+    var temp = (0..list.size - 1).map { it }
+//    println(temp)
+
+    //list.mapIndexed { index, i -> println("${index} .... ${i}") }
+
+    println(list.slice(listOf(0,2)))
 }
 
 fun testJsonFormat() {
-    val json:String = """
+    val json: String = """
 {
     "rating": {
         "max": 10,
