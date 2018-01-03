@@ -5,6 +5,7 @@ package com.better.clazz.data
  * Created by zhaoyu1 on 2017/12/18.
  */
 data class DataClass(val name:String, val age:Int)
+data class UserBean(val name:String)
 
 
 fun main(args: Array<String>) {
@@ -19,4 +20,6 @@ fun main(args: Array<String>) {
     // 解构,將构造中的字段分离出来，并赋值给
     val(myName, myAge) = data
     println("$myName, $myAge")
+
+    // 标准的数据类
 }
