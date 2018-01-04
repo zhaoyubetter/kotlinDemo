@@ -9,6 +9,13 @@ val mySum = fun Int.(other: Int): Int = this + other
 
 fun main(args: Array<String>) {
     // 函数字面值的类型是一个带有接收者的函数类型
-    val sumOk : Int.(other:Int) -> Int = {this + it}   // 有点像扩展函数
+    val sumOk: Int.(other: Int) -> Int = {
+        println("this: $this, it:$it")
+        this + it
+    }  // 有点像扩展函数
     println(1.sumOk(2))
+
+    println(4.mySum(5))
+
+    val other: Int.() -> Unit = { this }
 }
