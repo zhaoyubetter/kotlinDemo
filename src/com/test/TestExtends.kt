@@ -6,6 +6,7 @@ package com.test
  * Created by zhaoyu1 on 2017/12/14.
  */
 
+/*
 // 编译器常量
 const val SOLID = "1234"
 
@@ -25,3 +26,4 @@ fun main(args: Array<String>) {
     val c = Child()
     println(c.name)
 }
+*/

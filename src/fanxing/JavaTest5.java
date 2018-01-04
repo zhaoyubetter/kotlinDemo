@@ -13,14 +13,9 @@ public class JavaTest5 {
         List<CharSequence> strList = new ArrayList<>();
         // 报错,Java 中的泛型不允许这样操作
         // List<Object> objList = strList;
-
     }
 
     static void method(List<String> list) {
         // List<Object> tmpList = list;  // ERROR
     }
-
-
-
-
 }
