@@ -1,9 +1,6 @@
 package fanxing;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * 参考：https://www.jianshu.com/p/3a8622525902
@@ -11,6 +8,7 @@ import java.util.List;
  */
 public class JavaTest {
     public static void main(String[] args) {
+
         List<CharSequence> strList = new ArrayList<>();
 
         // 报错,Java 中的泛型不允许这样操作
