@@ -5,6 +5,7 @@ import java.util.*
 /**
  */
 class Test5 {
+
     /*
      kotlin 中没有泛型通配符的概念
      添加了协变（covariant）与型变(contravariant)
@@ -47,7 +48,6 @@ class Test5 {
                 }
             }
         }
-
     }
 }
 
@@ -58,8 +58,18 @@ fun main(args: Array<String>) {
     // 以下代码有错误，泛型强制约束了, Array 在 T 上不型变
     // Test5.arrayCopy(from = from_ints, to = to_anys)
 
-
     // === 使用 2
     Test5.arrayCopy2(from = from_ints, to = to_anys)
     println(Arrays.toString(to_anys))
+
+    val mList = listOf<Int>(1,2,3,4)
+    test(mList)
+}
+
+/**
+ * ? extends Number & Comparable
+ */
+fun <T> test(list: List<T> ) where T:Number,T: Comparable<T>{
+    val get = list.get(0)
+    println(get)
 }

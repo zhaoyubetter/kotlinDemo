@@ -106,14 +106,12 @@ fun html(init: HTML.() -> Unit): HTML {
 }
 
 fun main(args: Array<String>) {
-    val html = html {
+  val html = html {
         body {
             a("www.jd.com") { +"abc" }
             p { "p" }
             b { "b" }
-
         }
-
         head {
             title { +"title" }      // 加入标签中
         }
