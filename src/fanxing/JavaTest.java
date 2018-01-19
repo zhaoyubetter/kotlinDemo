@@ -20,22 +20,39 @@ public class JavaTest {
 
         // 以下没问题
         // 签名为；addAll(Collection<? super T> c
-        Collections.addAll(strList, "aa","bb","cc");
+        Collections.addAll(strList, "aa", "bb", "cc");
         //
         Collections.addAll(strList, "");
 
         /// ============ 其他例子 Java 泛型不支持继承
         //Plate<Fruit> p=new Plate<Apple>(new Apple());  // 装苹果的盘子”无法转换成“装水果的盘子”。
-
-
     }
 
-    static class Fruit {}
-    static class Apple extends Fruit {}
-    static class Plate<T>{
+    static class Fruit {
+    }
+
+    static class Apple extends Fruit {
+    }
+
+    static class Plate<T> {
         private T item;
-        public Plate(T t){item=t;}
-        public void set(T t){item=t;}
-        public T get(){return item;}
+
+        public Plate(T t) {
+            item = t;
+        }
+
+        public void set(T t) {
+            item = t;
+        }
+
+        public T get() {
+            return item;
+        }
     }
+
+    <T> void method(List<T> list) {
+        for (T t : list) {
+        }
+    }
+
 }

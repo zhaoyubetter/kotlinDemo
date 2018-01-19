@@ -5,7 +5,7 @@ import java.beans.AppletInitializer
 /**
  * Created by zhaoyu1 on 2017/12/4.
  */
-class Person constructor(name: String) {
+class Person constructor(name: String) {        // private constructor 反编译代码
     var name: String = name
         get() = field.toUpperCase()
 

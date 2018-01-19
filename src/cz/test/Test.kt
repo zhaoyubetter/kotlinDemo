@@ -1,5 +1,5 @@
 package cz.test
-
+/*
 import com.google.gson.JsonParser
 import cz.model.plugin.json.JsonFormatter
 
@@ -116,3 +116,4 @@ fun isJson(value: String?): Boolean {
     }
     return result
 }
+        */
