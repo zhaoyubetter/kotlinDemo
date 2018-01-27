@@ -8,6 +8,12 @@ inline fun lock() {
     println("lock() called")
 }
 
+// noinline  不内联
+inline fun method(name: String, noinline colsure: (param: String) -> String) {
+    println(colsure.invoke(name))
+}
+
 fun main(args: Array<String>) {
-    lock()
+//    lock()
+    method("better", { it -> "Hello " + it })
 }
