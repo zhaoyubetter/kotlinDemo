@@ -1,14 +1,9 @@
 package com.better.reflect
 
+import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 
 open class Anim(val typeName:String)
-
-class Person(val name:String, val age:Int):Anim("huminbeans") {
-    fun method() {
-        println("method called()")
-    }
-}
 
 fun main(args: Array<String>) {
     val person = Person("better", 30)
@@ -19,4 +14,16 @@ fun main(args: Array<String>) {
         println(it.name)        // KProperty
     }
 
+    val kNameProp = Person::name
+    println(kNameProp.getter.call(person))
+    println(kNameProp.get(person))
+    println(kNameProp.invoke(person))
+
+    kNameProp.set(person, "hello")
+}
+
+class Person(var name:String, var age:Int):Anim("huminbeans") {
+    fun method() {
+        println("method called()")
+    }
 }
