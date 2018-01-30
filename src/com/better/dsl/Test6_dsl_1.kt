@@ -22,9 +22,9 @@ fun table(init: TABLE.() -> Unit) = TABLE().init()
 fun main(args: Array<String>) {
     table {
         tr {
-            (this@tr).td {
+        }
+        tr {
 
-            }
         }
     }
 }
