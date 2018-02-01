@@ -27,3 +27,8 @@ fun main(args: Array<String>) {
     println(c.name)
 }
 */
+
+fun main(args: Array<String>) {
+    val list = mutableListOf("a", "b", "c")
+//    list.maxBy { it.toInt() }
+}
