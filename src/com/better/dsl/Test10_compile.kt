@@ -5,7 +5,7 @@ package com.better.dsl
  */
 
 class DenpenderyHandler {
-    fun compile(coordinate: String) {
+    infix fun compile(coordinate: String) {
         println("add dependency on $coordinate")
     }
     operator fun invoke(body: DenpenderyHandler.() -> Unit) {
@@ -15,8 +15,12 @@ class DenpenderyHandler {
 
 fun main(args: Array<String>) {
     val dep = DenpenderyHandler()
+
     dep.compile("com.git.basenet:basenet:0.0.7")
     dep {
         compile("com.git.basenet:basenet:0.0.7")
+    }
+    dep {
+        this compile "com.git.basenet:basenet:0.0.7"
     }
 }

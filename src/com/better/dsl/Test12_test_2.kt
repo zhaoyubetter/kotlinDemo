@@ -14,6 +14,8 @@ class StartWrapper(val value: String) {
         }
     }
 }
+
+
 infix fun String.should(x: start): StartWrapper = StartWrapper(this)
 
 fun main(args: Array<String>) {
