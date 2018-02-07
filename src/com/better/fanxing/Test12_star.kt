@@ -13,6 +13,8 @@ fun main(args: Array<String>) {
     val unkownElems: MutableList<*> = if (Random().nextBoolean()) list else chars
     //unkownElems.add(12)  // 不能调用
     println(unkownElems.get(0))
+
+    val list2: List<*> = listOf("aa", "bb")
 }
 
 fun <T> getFirst(list: List<*>): T? {
