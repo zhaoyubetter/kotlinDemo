@@ -1,53 +1,66 @@
-package com.better.json
-
-import kotlin.reflect.KClass
+import com.better.json.*
+import kotlin.reflect.KProperty
 import kotlin.reflect.KProperty1
+import kotlin.reflect.full.createInstance
+import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberProperties
 
-
-/**
- * to json
+/*
+ 获取类的所有KProperty;
+遍历 KProperty 集合，获取每个 KProperty；
+每个KProperty都有他的名字与值，对应json的 key，value，value 处理时，需进行类型判断；
  */
-fun toJson(obj: Any): String {
-    val kClass:KClass<Any> = obj.javaClass.kotlin
-    val kProperties = kClass.memberProperties
 
-    return kProperties.joinToString(separator = ",", prefix = "{", postfix = "}") {
-        it-> serializeProperty(it, obj)
+fun serialize(o: Any) = buildString { serializeObj(o) }
+
+private inline fun StringBuilder.serializeObj(o: Any) {
+    o.javaClass.kotlin.memberProperties
+            .filter { it.findAnnotation<JsonExclude>() == null }
+            .joinToStringBuilder(this, separator = ",", prefix = "{", postfix = "}") {
+                serializeProperty(it, o)
+            }
+}
+
+private inline fun StringBuilder.serializeProperty(property: KProperty1<Any, *>, receiver: Any) {
+    // has change name
+    val jsonName = property.findAnnotation<JsonName>()?.name ?: property.name
+    serializeString(jsonName)
+    append(":")
+
+    val value = property.invoke(receiver)
+    val jsonValue = property.getCustomSerializer(property)?.toJson(value) ?: value
+    serializePropertyValue(jsonValue)
+}
+
+private inline fun KProperty<*>.getCustomSerializer(property: KProperty1<Any, *>): ValueSerializer<Any?>? {
+    // has custom serialize
+    val customSerializeClass = property.findAnnotation<CustomSerializer>()?.kClazz
+    if (customSerializeClass != null) {
+        // 创建KClass 示例
+        val valueSerializer = customSerializeClass.objectInstance ?: customSerializeClass.createInstance()
+        // * 需要强制转一下
+        return (valueSerializer as ValueSerializer<Any?>?)
+    }
+    return null
+}
+
+private fun StringBuilder.serializePropertyValue(value: Any?) {
+    when (value) {
+        null -> append("null")
+        is String -> serializeString(value)
+        is Boolean, is Number -> append(value.toString())
+        is List<*> -> serializeList(value)
+        else -> serializeObj(value)
     }
 }
 
-
-fun serializeProperty(prop:KProperty1<Any, *>, obj:Any):String {
-    // key
-    val sb = StringBuilder()
-    sb.serializeString(prop.name)
-
-    sb.append(": ")
-
-    // value
-    val propValue = prop.get(obj)
-    when(propValue) {
-        null -> sb.append("null")
-        is String -> sb.serializeString(propValue)
-        is Number, is Boolean -> sb.append(propValue)
-        // is List<*> ->
-
+private fun StringBuilder.serializeList(data: List<Any?>) {
+    data.joinToStringBuilder(this, separator = ", ", prefix = "[", postfix = "]") {
+        serializePropertyValue(it)
     }
-    return sb.toString()
 }
 
-// "name"
-fun StringBuilder.serializeString(s:String) {
-    append("\"")
-    append(s)
-    append("\"")
+private fun StringBuilder.serializeString(data: String) {
+    append("\"").append(data).append("\"")
 }
 
-
-fun main(args: Array<String>) {
-    val p = Person("better", 30)
-    println(toJson(p))
-}
-
-data class Person(val name: String, val age: Int)
