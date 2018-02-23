@@ -4,6 +4,7 @@ import kotlin.reflect.KProperty1
 import kotlin.reflect.full.createInstance
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.isAccessible
 
 /*
  获取类的所有KProperty;
@@ -27,6 +28,7 @@ private inline fun StringBuilder.serializeProperty(property: KProperty1<Any, *>,
     serializeString(jsonName)
     append(":")
 
+    property.isAccessible = true
     val value = property.invoke(receiver)
     val jsonValue = property.getCustomSerializer(property)?.toJson(value) ?: value
     serializePropertyValue(jsonValue)

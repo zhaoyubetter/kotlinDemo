@@ -6,6 +6,7 @@ import com.better.json.JsonName
 import com.better.json.ValueSerializer
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashMap
 
 // 县
 data class County(val name: String, val peopleCount: Int)
@@ -16,7 +17,14 @@ data class City(val name: String, val counties: List<County>)
 // 省
 data class Province(val name: String, val size: Int, val cities: List<City>?)
 
-data class UserBean(@JsonExclude val username: String, @JsonName("myAge") val age: Int)
+data class UserBean(@JsonExclude val username: String, @JsonName("myAge") val age: Int) {
+    // map 有待支持
+    val map = HashMap<String, Int>()
+    init {
+        map["Abc"] = 567
+        map["Def"] = 999
+    }
+}
 
 data class MyTime(@CustomSerializer(DateSerializer::class) val birthday: Long?, val name: String)
 
