@@ -1,7 +1,7 @@
 package cz.test
 /*
 import com.google.gson.JsonParser
-import cz.model.plugin.json.JsonFormatter
+import cz.model.plugin.klaxon.JsonFormatter
 
 /**
  * Created by zhaoyu on 2017/6/4.
@@ -20,7 +20,7 @@ fun main(args: Array<String>) {
 }
 
 fun testJsonFormat() {
-    val json: String = """
+    val klaxon: String = """
 {
     "rating": {
         "max": 10,
@@ -102,7 +102,7 @@ fun testJsonFormat() {
 }
     """
 
-    val jsonFormat = JsonFormatter("A.java", json, true)
+    val jsonFormat = JsonFormatter("A.java", klaxon, true)
     println(jsonFormat.format())
 }
 

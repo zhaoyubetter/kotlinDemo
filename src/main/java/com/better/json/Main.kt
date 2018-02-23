@@ -2,8 +2,6 @@ package com.better.json
 
 import com.better.json.data.MyTime
 import com.better.json.data.UserBean
-import serialize
-import java.util.*
 
 fun main(args: Array<String>) {
 //    val c1 = County("湘潭县", 20_000)

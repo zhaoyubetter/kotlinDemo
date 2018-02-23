@@ -6,6 +6,7 @@ buildscript {
 
     repositories {
         mavenCentral()
+        jcenter()
         maven { url "http://dl.bintray.com/kotlin/kotlin-eap" }
     }
 
@@ -16,6 +17,7 @@ buildscript {
 
 repositories {
     mavenCentral()
+    jcenter()
     maven { url "http://dl.bintray.com/kotlin/kotlin-eap" }
 }
 
@@ -26,4 +28,6 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     testCompile "junit:junit:4.12"
+    testCompile 'com.beust:klaxon:2.1.6'
+    testCompile 'com.google.code.gson:gson:2.7'
 }

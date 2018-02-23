@@ -1,4 +1,5 @@
-import com.better.json.*
+package com.better.json
+
 import kotlin.reflect.KProperty
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.createInstance
@@ -28,7 +29,6 @@ private inline fun StringBuilder.serializeProperty(property: KProperty1<Any, *>,
     serializeString(jsonName)
     append(":")
 
-    property.isAccessible = true
     val value = property.invoke(receiver)
     val jsonValue = property.getCustomSerializer(property)?.toJson(value) ?: value
     serializePropertyValue(jsonValue)
@@ -51,14 +51,26 @@ private fun StringBuilder.serializePropertyValue(value: Any?) {
         null -> append("null")
         is String -> serializeString(value)
         is Boolean, is Number -> append(value.toString())
-        is List<*> -> serializeList(value)
+        is Collection<*> -> serializeCollection(value)
+        is Map<*,*> -> serializeMap(value)
         else -> serializeObj(value)
     }
 }
 
-private fun StringBuilder.serializeList(data: List<Any?>) {
+private fun StringBuilder.serializeCollection(data: Collection<Any?>) {
     data.joinToStringBuilder(this, separator = ", ", prefix = "[", postfix = "]") {
         serializePropertyValue(it)
+    }
+}
+
+/**
+ * Map 实际上是一个 Object
+ */
+private fun StringBuilder.serializeMap(data: Map<*, *>) {
+    data.entries.joinToStringBuilder(this, separator = ", ", prefix = "{", postfix = "}") { it ->
+        serializeString(it.key.toString())       // force to String
+        append(":")
+        serializePropertyValue(it.value as Any)
     }
 }
 
