@@ -15,6 +15,10 @@ data class Person(val name: String, val age: Int) {
         map["Java"] = map1
         map["Kotlin"] = map1
 
+        (0..100000).forEach {
+            map[""+it] = map1
+        }
+
         set += county1
         set += county2
     }
@@ -24,8 +28,10 @@ class MyJsonToolsTest {
     @Test
     fun testMapToJson() {
         val person = Person("Alice", 29)
+        val startTime = System.currentTimeMillis()
         val result = serialize(person)
         println(result)
+        println("cost ${(System.currentTimeMillis() - startTime) * 1.0f / 1000 }s")
     }
 }
 
