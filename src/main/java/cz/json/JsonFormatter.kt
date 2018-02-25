@@ -3,7 +3,7 @@ package cz.model.plugin.json
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import cz.json.JsonNode
+import cz.klaxon.JsonNode
 import cz.model.FieldType
 import cz.model.*
 

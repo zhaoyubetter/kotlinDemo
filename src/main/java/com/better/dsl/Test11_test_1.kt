@@ -21,5 +21,4 @@ infix fun <T> T.should(matcher: Matcher<T>) = matcher.test(this)
 
 fun main(args: Array<String>) {
     "kotlin" should startWith("ko")
-    "kotlin".should(startWith("ko"))
 }
