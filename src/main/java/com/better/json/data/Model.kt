@@ -30,5 +30,9 @@ data class MyTime(@CustomSerializer(DateSerializer::class) val birthday: Long?, 
 
 object DateSerializer : ValueSerializer<Long> {
     private val dmt = SimpleDateFormat("yyyy-MM-dd")
-    override fun toJson(value: Long?): Any? = if (value == null) null else dmt.format(Date())
+    override fun toJsonValue(value: Long): Any? = if (value == null) null else dmt.format(Date())
+    // TODO:
+    override fun fromJsonValue(jsonValue: Any?): Long {
+        return 11111L
+    }
 }

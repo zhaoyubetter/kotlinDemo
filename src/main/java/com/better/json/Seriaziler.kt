@@ -5,7 +5,6 @@ import kotlin.reflect.KProperty1
 import kotlin.reflect.full.createInstance
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberProperties
-import kotlin.reflect.jvm.isAccessible
 
 /*
  获取类的所有KProperty;
@@ -30,13 +29,13 @@ private inline fun StringBuilder.serializeProperty(property: KProperty1<Any, *>,
     append(":")
 
     val value = property.invoke(receiver)
-    val jsonValue = property.getCustomSerializer(property)?.toJson(value) ?: value
+    val jsonValue = property.getCustomSerializer()?.toJsonValue(value) ?: value
     serializePropertyValue(jsonValue)
 }
 
-private inline fun KProperty<*>.getCustomSerializer(property: KProperty1<Any, *>): ValueSerializer<Any?>? {
+fun KProperty<*>.getCustomSerializer(): ValueSerializer<Any?>? {
     // has custom serialize
-    val customSerializeClass = property.findAnnotation<CustomSerializer>()?.kClazz
+    val customSerializeClass = findAnnotation<CustomSerializer>()?.kClazz
     if (customSerializeClass != null) {
         // 创建KClass 示例
         val valueSerializer = customSerializeClass.objectInstance ?: customSerializeClass.createInstance()
