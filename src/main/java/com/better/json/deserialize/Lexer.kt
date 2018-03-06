@@ -7,6 +7,7 @@ import java.io.Reader
  */
 
 interface Token {
+    /**,逗号*/
     object COMMA : Token
     object COLON : Token
     object LBRACE : Token

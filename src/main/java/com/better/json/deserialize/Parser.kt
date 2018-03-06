@@ -12,15 +12,17 @@ class Parser(reader: Reader, val rootObject: JsonObject) {
         }
     }
 
-    private fun parseObjectBody(JsonObject: JsonObject) {
+    private fun parseObjectBody(jsonObj: JsonObject) {
+        // 右括号 }. like { "name" : "better" }
         parseCommaSeparated(Token.RBRACE) { token ->
-            if (token !is Token.StringValue) {
+            if (token !is Token.StringValue) {  // 下一个 token，必须是TokenString
                 throw MalformedJSONException("Unexpected token $token")
             }
 
-            val propName = token.value
-            expect(Token.COLON)
-            parsePropertyValue(JsonObject, propName, nextToken())
+            val propName = token.value      // String token 值，属性名
+            expect(Token.COLON)             // : 冒号
+            // 解析值
+            parsePropertyValue(jsonObj, propName, nextToken())
         }
     }
 
@@ -46,6 +48,9 @@ class Parser(reader: Reader, val rootObject: JsonObject) {
         }
     }
 
+    /**
+     * 解析值
+     */
     private fun parsePropertyValue(currentObject: JsonObject, propName: String, token: Token) {
         when (token) {
             is Token.ValueToken ->
