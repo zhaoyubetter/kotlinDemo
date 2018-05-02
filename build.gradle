@@ -2,16 +2,21 @@ apply plugin: 'java'
 apply plugin: "kotlin"
 
 buildscript {
-    ext.kotlin_version = '1.2.0-rc-39'
+    ext.kotlin_version = '1.2.21'
 
     repositories {
-        mavenCentral()
         jcenter()
-        maven { url "http://dl.bintray.com/kotlin/kotlin-eap" }
+        mavenCentral()
     }
-
+    repositories {
+        mavenCentral()
+    }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
 }
 
@@ -27,7 +32,21 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     testCompile "junit:junit:4.12"
     testCompile 'com.beust:klaxon:2.1.6'
     testCompile 'com.google.code.gson:gson:2.7'
+}
+
+
+// groovy 需要单独配置一下 config groovy sdk ，使用add lib 的形式
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
