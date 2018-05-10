@@ -17,4 +17,7 @@ val sum3 = {x:Int, y:Int -> x + y}
 fun main(args: Array<String>) {
     println(sum1(1,2))
     println(sum2.invoke(4,5))
+
 }
+
+

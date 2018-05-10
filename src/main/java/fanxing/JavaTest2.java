@@ -19,7 +19,7 @@ public class JavaTest2 {
 
         // ===》改成 (啥水果都能放的盘子) 加入extends
         Plate<? extends Fruit> p = new Plate<>(new Apple());
-        // p.set(new Apple()); 报错
+//        p.set(new Banana()); //报错
     }
 
     static class Fruit {
@@ -27,6 +27,8 @@ public class JavaTest2 {
 
     static class Apple extends Fruit {
     }
+
+    static class Banana extends Fruit {}
 
     static class Plate<T> {
         private T item;
