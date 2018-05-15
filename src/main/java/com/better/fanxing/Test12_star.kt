@@ -15,6 +15,8 @@ fun main(args: Array<String>) {
     println(unkownElems.get(0))
 
     val list2: List<*> = listOf("aa", "bb")
+
+    println(list)
 }
 
 fun <T> getFirst(list: List<*>): T? {

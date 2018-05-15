@@ -55,6 +55,6 @@ fun main(args: Array<String>) {
     MyCopy<String, Any>().copyData4(source3, destination3)
 
     val list: MutableList<out Number> = mutableListOf(1, 2, 3)
-    list.add(22)    // 禁止调用 in 位置上的方法
+//    list.add(22)    // 禁止调用 in 位置上的方法
 
 }
