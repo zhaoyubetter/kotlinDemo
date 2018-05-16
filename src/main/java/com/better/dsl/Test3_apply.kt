@@ -9,7 +9,9 @@ val muFun = fun(sb: StringBuilder) {
 
 fun main(args: Array<String>) {
     val l = StringBuilder().apply {
-        muFun
+        for (a in 'a'..'z') {
+            append(a)
+        }
     }.toString()
     println(l)
 }

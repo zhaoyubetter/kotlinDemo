@@ -21,10 +21,11 @@ fun table(init: TABLE.() -> Unit) = TABLE().init()
 
 fun main(args: Array<String>) {
     table {
+        (this@table).tr {}
         tr {
-        }
-        tr {
+            td {
 
+            }
         }
     }
 }
