@@ -4,7 +4,7 @@ package companion_
  * 类似Java中的静态方法
  */
 class A {
-    companion object {
+    companion object  { // companion object good
         fun method() {
             println(this)
             println(" Companion object called")
@@ -24,7 +24,7 @@ class A {
 }
 
 class B {
-    companion object {
+    companion object Better {   // 指定名字
     }
 }
 
