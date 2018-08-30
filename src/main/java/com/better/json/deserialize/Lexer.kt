@@ -9,10 +9,15 @@ import java.io.Reader
 interface Token {
     /**,逗号*/
     object COMMA : Token
+    /**:冒号*/
     object COLON : Token
+    /** { */
     object LBRACE : Token
+    /**}*/
     object RBRACE : Token
+    /**[*/
     object LBRACKET : Token
+    /**]*/
     object RBRACKET : Token
 
     interface ValueToken : Token {
@@ -128,12 +133,12 @@ class Lexer(reader: Reader) {
                 val escaped = charReader.readNext() ?: throw MalformedJSONException("Unterminated escape sequence")
                 when(escaped) {
                     '\\', '/', '\"' -> result.append(escaped)
-                    'b' -> result.append('\b')
-                    'f' -> result.append('\u000C')
+                    'b' -> result.append('\b')      // 退格
+                    'f' -> result.append('\u000C')  // 换页
                     'n' -> result.append('\n')
                     'r' -> result.append('\r')
                     't' -> result.append('\t')
-                    'u' -> {
+                    'u' -> {    // unicode 编码
                         val hexChars = charReader.readNextChars(4)
                         result.append(Integer.parseInt(hexChars, 16).toChar())
                     }

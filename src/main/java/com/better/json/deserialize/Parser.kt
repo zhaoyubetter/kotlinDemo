@@ -13,13 +13,14 @@ class Parser(reader: Reader, val rootObject: JsonObject) {
     }
 
     private fun parseObjectBody(jsonObj: JsonObject) {
-        // 右括号 }. like { "name" : "better" }
+        // 解析json如： { "name" : "better" }
         parseCommaSeparated(Token.RBRACE) { token ->
-            if (token !is Token.StringValue) {  // 下一个 token，必须是TokenString
+            // key 都是 String 类型的 token
+            if (token !is Token.StringValue) {
                 throw MalformedJSONException("Unexpected token $token")
             }
 
-            val propName = token.value      // String token 值，属性名
+            val propName = token.value      // String token 值，如：{ "name" : "better" } 中的name
             expect(Token.COLON)             // : 冒号
             // 解析值
             parsePropertyValue(jsonObj, propName, nextToken())
@@ -32,35 +33,41 @@ class Parser(reader: Reader, val rootObject: JsonObject) {
         }
     }
 
+    /**
+     * 根据逗号分隔，进行json解析
+     */
     private fun parseCommaSeparated(stopToken: Token, body: (Token) -> Unit) {
-        var expectComma = false
+        var expectComma = false  // ,
         while (true) {
-            var token = nextToken()
+            var token = nextToken()  // 获取下一个标记
             if (token == stopToken) return
             if (expectComma) {
                 if (token != Token.COMMA) throw MalformedJSONException("Expected comma")
                 token = nextToken()
             }
 
-            body(token)
+            body(token)     // 执行 lambda
 
             expectComma = true
         }
     }
 
     /**
-     * 解析值
+     * 解析json值，值只有3种类型
      */
     private fun parsePropertyValue(currentObject: JsonObject, propName: String, token: Token) {
         when (token) {
+            // 简单值
             is Token.ValueToken ->
                 currentObject.setSimpleProperty(propName, token.value)
 
+            // {  对象
             Token.LBRACE -> {
                 val childObj = currentObject.createObject(propName)
                 parseObjectBody(childObj)
             }
 
+            // [  數組
             Token.LBRACKET -> {
                 val childObj = currentObject.createArray(propName)
                 parseArrayBody(childObj, propName)
