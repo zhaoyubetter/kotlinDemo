@@ -15,6 +15,10 @@ fun main(args: Array<String>) {
         }
     })
 
+    // === filterTo
+
+
+
     // === 3.reduce
     println(array.reduce { init, next ->
         println("$init $next")
