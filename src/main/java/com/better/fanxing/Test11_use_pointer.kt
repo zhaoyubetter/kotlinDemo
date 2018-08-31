@@ -26,6 +26,14 @@ fun <T> copyData3(source: MutableList<out T>, destination: MutableList<T>) {
 }
 
 
+class MyCopy<T : R, R> {
+    fun copyData4(source: MutableList<T>, destination: MutableList<R>) {
+        for (item in source) {
+            destination += item
+        }
+    }
+}
+
 
 fun main(args: Array<String>) {
     val source = mutableListOf("abc", "efg")
@@ -42,4 +50,11 @@ fun main(args: Array<String>) {
     var destination3 = mutableListOf<Any>()
     copyData3(source3, destination3)
     println(destination3)
+
+
+    MyCopy<String, Any>().copyData4(source3, destination3)
+
+    val list: MutableList<out Number> = mutableListOf(1, 2, 3)
+//    list.add(22)    // 禁止调用 in 位置上的方法
+
 }

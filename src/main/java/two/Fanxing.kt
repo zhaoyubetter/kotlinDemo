@@ -26,3 +26,7 @@ class Fanxing {
     }
 
 }
+
+fun main(args: Array<String>) {
+    println(101 % 100)
+}

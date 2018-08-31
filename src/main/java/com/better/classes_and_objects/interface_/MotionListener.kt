@@ -8,11 +8,22 @@ interface MotionListener {
     fun onMove() {
         println("onMoving")
     }
-
     fun onUp()
+
+    fun onClick() {}
 }
 
-class Impl(override var name: String) : MotionListener {
+open  class ClickListener {
+    open fun onClick() {}
+}
+
+class Impl(override var name: String) : MotionListener,ClickListener() {
+
+    override fun onClick() {
+        super<ClickListener>.onClick()
+        super<MotionListener>.onClick()
+    }
     override fun onUp() {
     }
+
 }

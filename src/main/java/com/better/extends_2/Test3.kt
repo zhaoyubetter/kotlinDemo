@@ -14,5 +14,5 @@ fun World.say() {
 
 fun main(args: Array<String>) {
     val w = World()
-    w.say()
+    w.say()     // world say
 }
