@@ -1,4 +1,4 @@
-package com.test.fn
+package com.test.operator
 
 /**
  * 总数操作符

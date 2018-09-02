@@ -1,6 +1,4 @@
-package com.test.fn
-
-import copy.User
+package com.test.operator
 
 /**
  * 元素操作符

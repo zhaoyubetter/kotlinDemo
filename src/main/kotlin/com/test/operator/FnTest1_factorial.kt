@@ -1,4 +1,4 @@
-package com.test.fn
+package com.test.operator
 
 fun main(args: Array<String>) {
     val n = 3

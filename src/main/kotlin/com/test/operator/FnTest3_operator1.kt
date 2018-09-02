@@ -1,4 +1,4 @@
-package com.test.fn
+package com.test.operator
 
 fun main(args: Array<String>) {
     val array = arrayOf("aaa", "bbb", "ccc", "ddd", "1111", "5555", "9999")
