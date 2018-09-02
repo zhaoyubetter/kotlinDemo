@@ -34,12 +34,9 @@ fun main(args: Array<String>) {
     println("\n======== plus ========================")
     println(list1.plus(list2))
 
-//
+
     // 4.unzip 返回 pair，里面2个list
     println("\n======== unzip ========================")
     val list4 = listOf("one" to 1, "two" to 2, "three" to 3)
     println(list4.unzip())
-
-
-
 }
