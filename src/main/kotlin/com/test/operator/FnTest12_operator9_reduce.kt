@@ -12,4 +12,11 @@ fun main(args: Array<String>) {
         index + it
     }
 
+    println("\n======== 1 .. 100 ========================")
+    println((1 .. 100).reduce { acc, next -> acc + next })
+
+    println("\n======== 拼接id ========================")
+    val ids = listOf("id1","id2","id3","id4")
+    println(ids.reduce { acc, next -> "$acc,$next" })
+
 }

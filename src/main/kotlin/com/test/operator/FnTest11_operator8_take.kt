@@ -25,4 +25,5 @@ fun main(args: Array<String>) {
     // 是否全部不满足
     list.takeUnless { it.all { it < 0 } }?.forEach { print("$it ") }
 
+
 }

@@ -22,6 +22,7 @@ fun main(args: Array<String>) {
         it % 2 == 0
     }
 
+
     println("======== filterIsInstance ========================")
     val animals = listOf<Animl>(
             Dog("dog1"),

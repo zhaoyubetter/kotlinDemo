@@ -13,4 +13,5 @@ fun main(args: Array<String>) {
         print("$it ")
     }
     array.sliceArray(listOf(2,5)).forEach { print("$it ") }
+
 }

@@ -4,7 +4,12 @@ fun main(args: Array<String>) {
     val list = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9)
     val list2 = listOf("a", "b", "c", "d")
 
-    println("======== flatMap ========================")
+    println("======== flatMap 合并集合 ========================")
+    listOf(list,list2).flatMap { it -> it }.forEach {
+        print("$it ")
+    }
+
+    println("\n======== flatMap ========================")
     list.flatMap { a -> list2.map { b -> "$a$b" } }.forEach {
         print("$it ")
     }
