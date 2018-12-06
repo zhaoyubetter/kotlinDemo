@@ -4,18 +4,18 @@ open class Tag
 
 class TABLE : Tag() {
 
-    fun tr(init:  TR.() -> Unit) {
+    fun tr(init: TR.() -> Unit) {
         TR().init()
     }
 }
 
 class TR : Tag() {
     fun td(init: TD.() -> Unit) {
-
+        TD().init()
     }
 }
 
-class TD:Tag()
+class TD : Tag()
 
 fun table(init: TABLE.() -> Unit) = TABLE().init()
 

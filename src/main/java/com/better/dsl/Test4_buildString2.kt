@@ -20,9 +20,17 @@ fun main(args: Array<String>) {
     }
     println(s)
 
+    val ss = mybuildString {
+        it.append("123")
+        it.append("abc")
+    }
+    println(ss)
+
     // =============
     val s2 = mybuildString2 {
         this.append("better")
         append("zhaoyu")        // 省略this
     }
+
+    println(s2)
 }

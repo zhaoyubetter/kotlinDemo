@@ -63,7 +63,7 @@ abstract class TagWithText(name: String) : Tag(name) {
     }
 }
 
-class HTML : TagWithText("html") {
+class HTML : TagWithText("htmlmarker") {
     fun head(init: Head.() -> Unit) = initTag(Head(), init)
 
     fun body(init: Body.() -> Unit) = initTag(Body(), init)

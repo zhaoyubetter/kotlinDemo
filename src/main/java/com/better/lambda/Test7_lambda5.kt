@@ -6,7 +6,7 @@ package com.better.lambda
 // 接收者可通过上下判断出来，可通过lambda表达式来接收函数字面值
 class HTML {
     fun body() {
-        println("html - body")
+        println("htmlmarker - body")
     }
 }
 
