@@ -1,5 +1,8 @@
 package com.better.dsl.htmlmarker
 
+import dsl.Title
+import javax.xml.soap.Text
+
 /**
  * <pre>
 <html>
@@ -11,148 +14,122 @@ package com.better.dsl.htmlmarker
  **/
 
 fun main(args: Array<String>) {
+
     val result =
             html {
                 head {
-                    title { -"HTML encoding with Kotlin" }
+                    title { -"hello" }
                 }
                 body {
-                    h1 {
-                    }
-                    p { -"this format can be used as an alternative markup to HTML" }
-
-                    // an element with attributes and text content
-                    a(href = "http://jetbrains.com/kotlin") { -"Kotlin" }
-
-                    // mixed content
-                    p {
-                        -"This is some"
-                        b { -"mixed" }
-                        -"text. For more see the"
-                        a(href = "http://jetbrains.com/kotlin") { -"Kotlin" }
-                        -"project"
-                    }
-                    p { -"some text" }
-
-                    // content generated from command-line arguments
-                    p {
-                        -"Command line arguments were:"
-                        ul {
-                            for (arg in args)
-                                li { -arg }
-                        }
+                    a(href = "http://www.google.com", color = "white") {
+                        -"Google"
                     }
                 }
             }
+
     println(result)
 
-    /*
-    val text = Title()
-    val sb = StringBuilder()
-    text.render(sb, "")
-    print(sb)
-    */
 }
 
 interface Element {
     fun render(builder: StringBuilder, indent: String)
 }
 
-// only text
+abstract class Tag(private val name: String) : Element {
+
+    protected val children = arrayListOf<Element>()
+    protected val attributes = hashMapOf<String, String>()
+
+    /**
+     * 1.先初始化
+     */
+    protected fun <T : Element> initTag(t: T, init: T.() -> Unit): T {
+        t.init()
+        children.add(t)
+        return t
+    }
+
+    /**
+     * 2. 再render
+     */
+    override fun render(builder: StringBuilder, indent: String) {
+        /* <font color='aaa'>
+               <xxx></xxx>
+           </font>
+         */
+        builder.append("$indent<$name${renderAttrs()}>\n")
+        for (child in children) {
+            child.render(builder, "$indent ")  // 注意这里有空格
+        }
+        builder.append("$indent</$name>\n")
+    }
+
+    private fun renderAttrs(): String {
+        val builder = StringBuilder()
+        for (attr in attributes) {
+            builder.append(" ${attr.key}=\"${attr.value}\"")
+        }
+        return builder.toString()
+    }
+
+    override fun toString(): String {
+        return StringBuilder().apply {
+            render(this, "")
+        }.toString()
+    }
+}
+
+// just text
 class TextElement(private val text: String) : Element {
     override fun render(builder: StringBuilder, indent: String) {
         builder.append("$indent$text\n")
     }
 }
 
-/**
- * add <xxx></xxx>
- */
-abstract class Tag(val name: String) : Element {
-    val children = arrayListOf<Element>()
-    val attributes = hashMapOf<String, String>()
-
-    protected fun <T : Element> initTag(tag: T, init: T.() -> Unit): T {
-        tag.init()
-        children.add(tag)  // include self
-        return tag
-    }
-
-    override fun render(builder: StringBuilder, indent: String) {
-        builder.append("$indent<$name${renderAttributes()}>\n")
-        for (c in children) {
-            c.render(builder, "$indent  ")
-        }
-        builder.append("$indent</$name>\n")
-    }
-
-    private fun renderAttributes(): String {
-        val builder = StringBuilder()
-        for (a in attributes.keys) {
-            builder.append(" $a=\"${attributes[a]}\"")
-        }
-        return builder.toString()
-    }
-
-
-    override fun toString(): String {
-        val builder = StringBuilder()
-        render(builder, "")
-        return builder.toString()
-    }
-}
-
-abstract class TagWithText(name: String) : Tag(name) {
+abstract class TagWithTag(text: String) : Tag(text) {
     operator fun String.unaryMinus() {
         children.add(TextElement(this))
     }
 }
 
-class HTML : TagWithText("html") {
+class TitleTag : TagWithTag("title")
 
+
+class Html : Tag("html") {
     fun head(init: Head.() -> Unit) = initTag(Head(), init)
-
     fun body(init: Body.() -> Unit) = initTag(Body(), init)
 }
 
-class Head : TagWithText("head") {
-    fun title(init: Title.() -> Unit) = initTag(Title(), init)
-}
-
-class Title : TagWithText("title")
-
-abstract class BodyTag(name: String) : TagWithText(name) {
-    fun b(init: B.() -> Unit) = initTag(B(), init)
-    fun p(init: P.() -> Unit) = initTag(P(), init)
-    fun h1(init: H1.() -> Unit) = initTag(H1(), init)
-    fun ul(init: UL.() -> Unit) = initTag(UL(), init)
-    fun a(href: String, init: A.() -> Unit) {
-        val a = initTag(A(), init)
-        a.href = href
-    }
-}
-
-class Body : BodyTag("body")
-class UL() : BodyTag("ul") {
-    fun li(init: LI.() -> Unit) = initTag(LI(), init)
-}
-
-class B() : BodyTag("b")
-class LI() : BodyTag("li")
-class P() : BodyTag("p")
-class H1() : BodyTag("h1")
-
-class A() : BodyTag("a") {
-    public var href: String
-        get() = attributes["href"]!!
-        set(value) {
-            attributes["href"] = value
-        }
-}
-
-fun html(init: HTML.() -> Unit): HTML {
-    val html = HTML()
+fun html(init: Html.() -> Unit): Html {
+    val html = Html()
     html.init()
     return html
 }
 
+class Head : Tag("head") {
+    fun title(init: TitleTag.() -> Unit) = initTag(TitleTag(), init)
+}
+
+class A : TagWithTag("a") {
+    var href: String
+        get() = attributes["href"]!!
+        set(value) {
+            attributes["href"] = value
+        }
+
+    var color: String
+        get() = attributes["color"]!!
+        set(value) {
+            attributes["color"] = value
+        }
+}
+
+
+class Body : Tag("body") {
+    fun a(href: String, color: String, init: A.() -> Unit): A {
+        val a = A()
+        a.href = href
+        a.color = color
+        return initTag(a, init)
+    }
+}
