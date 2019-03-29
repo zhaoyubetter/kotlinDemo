@@ -26,8 +26,6 @@ fun main(args: Array<String>) {
     val str = lists.joinToString { p: Person -> p.name.toUpperCase() }
                 lists.joinToString { p -> p.name.toUpperCase() }        // 省略参数类型
 
-    var str2 = null
-    str2.isNullOrEmpty()
     println(str)
 }
 
