@@ -156,6 +156,7 @@ class Test3 {
             println("result: ${minuend - noA.await() - noB.await()}")  // 协程总耗时：
         }
 
+
         Thread.sleep(4000L)  // 避免jvm提前退出 (2+1+0.2)s
     }
 }

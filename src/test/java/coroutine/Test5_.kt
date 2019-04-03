@@ -31,12 +31,39 @@ class Test5_ {
                 println("inner")
             }
 
+            withContext(Dispatchers.IO) {
+                delay(1000L)
+                println("inner2")
+            }
+
             println("after inner println")
         }
 
         println("first println")
         // 防止虚拟机关闭
-        Thread.sleep(2000L)
+        Thread.sleep(3000L)
+    }
+
+    @Test
+    fun test3() {
+        GlobalScope.launch(Dispatchers.Default) {
+            // 里头为同时执行
+            launch (Dispatchers.IO) {
+                delay(1000L)
+                println("inner")
+            }
+
+            launch (Dispatchers.IO) {
+                delay(1000L)
+                println("inner2")
+            }
+
+            println("after inner println")
+        }
+
+        println("first println")
+        // 防止虚拟机关闭
+        Thread.sleep(3000L)
     }
 
     @Test
@@ -58,5 +85,25 @@ class Test5_ {
         }
 
         println("啦啦啦啦")
+    }
+
+    @Test
+    fun testLaunch() {
+        runBlocking {
+            launch(Dispatchers.IO) {
+                println("异步执行任务1")
+                delay(1000L)
+
+            }
+
+            launch(Dispatchers.IO) {
+                println("异步执行任务2")
+                delay(1000L)
+            }
+
+            println("first println")
+        }
+
+        println("after println")
     }
 }
